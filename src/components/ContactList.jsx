@@ -7,16 +7,15 @@ import ContactRow from "./ContactRow";
     { id: 3, name: "BB-8", phone: "888-888-8888", email: "bb8@droids.com" },
   ];
   
-export default function ContactList() {
-  
-  const [contacts, setContacts] = useState(dummyContacts);
+export default function ContactList({setSelectedContactId}) {
+  const [contacts, setContacts] = useState([]);
 
   useEffect(() => {
     async function fetchContacts() {
       try {
-       const reponse = await fetch("https://jsonplaceholder.typicode.com/users");
-       const data = await reponse.json();
-       setContacts(result);
+        const reponse = await fetch("https://jsonplaceholder.typicode.com/users");
+        const results = await reponse.json();
+        setContacts(results);
       } catch (error) {
         console.error(error);
       }
@@ -39,9 +38,8 @@ export default function ContactList() {
             <td>Email</td>
             <td>Phone</td>
           </tr>
-          {contacts.map((contact) => {
-            return <ContactRow key={contact.id} contact = {contact}/>;
-            })}
+          {contacts.map(contact => <ContactRow key={contact.id} contact = {contact}
+          setSelectedContactId={setSelectedContactId} />)}
         </tbody>
       </table>
     </>
